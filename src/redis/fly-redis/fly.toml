@@ -1,0 +1,16 @@
+# fly.toml app configuration file generated for fly-redis-am on 2023-07-04T18:28:46+02:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = "fly-redis-am"
+primary_region = "jnb"
+
+[build]
+  image = "flyio/redis:6.2.6"
+
+[[mounts]]
+destination = "/data"
+source = "redis_server"
+
+
