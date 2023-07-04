@@ -14,7 +14,6 @@ public class ChatRobotController {
     private ChatGPTService chatGPTService;
     
     @PostMapping("/chat")
-    @CrossOrigin(origins = "http://localhost:4200")
     public Mono<String> chat(@RequestBody String content) {
         return chatGPTService.chat(ChatCompletionRequest.of(content))
                              .map(ChatCompletionResponse::getReplyText);
