@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@RestController
+@RestController("/secure")
 @CrossOrigin
 public class ChatGPTController {
     

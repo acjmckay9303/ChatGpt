@@ -12,6 +12,8 @@ public class Conversation {
     private String id;
     private List<Message> messages;
     
+    private String name;
+    
     public Conversation() {
         this.messages = new ArrayList<>();
     }
