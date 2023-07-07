@@ -1,21 +1,35 @@
 package com.example.gpt4.demo.entity;
 
+import lombok.Getter;
 import lombok.Setter;
 import org.mvnsearch.chatgpt.model.ChatCompletionResponse;
 import org.mvnsearch.chatgpt.model.ChatMessage;
 import org.mvnsearch.chatgpt.model.ChatMessageRole;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.redis.core.RedisHash;
 
+import jakarta.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-@RedisHash("Message")
+@Entity
+@Table(name = "message")
 @Setter
-public class Message {
+@Getter
+public class Message implements Serializable {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    @Column(name = "conversation_id")  // Add a column to store the conversation ID
+    private Long conversationId;
+    
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role")
     private ChatMessageRole role;
+    
+    @Column(name = "content")
     private String content;
+    
+    @Column(name = "timestamp")
     private LocalDateTime timestamp;
     
     public Message() {
@@ -33,28 +47,6 @@ public class Message {
         this.content = gptResponse.getReplyText();
         this.timestamp = LocalDateTime.now();
     }
-    
-    public Message(ChatMessageRole role, String content) {
-        this.role = role;
-        this.content = content;
-        this.timestamp = LocalDateTime.now();
-    }
-    
-    public String getId() {
-        return id;
-    }
-    
-    public ChatMessageRole getRole() {
-        return role;
-    }
-    
-    public String getContent() {
-        return content;
-    }
-    
-    public LocalDateTime getTimestamp() {
-        return timestamp;
-    }
-    
 }
+
 

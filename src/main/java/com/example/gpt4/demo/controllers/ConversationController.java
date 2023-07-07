@@ -7,8 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("secure/conversations")
-@CrossOrigin
+@RequestMapping("secure/conversation")
 public class ConversationController {
     
     private final ConversationRepository conversationRepository;
@@ -27,14 +26,14 @@ public class ConversationController {
         return conversationRepository.findById(id);
     }
     
-    @PostMapping
+    @PostMapping("/create")
     public Conversation createConversation(@RequestBody Conversation conversation) {
         return conversationRepository.save(conversation);
     }
     
-    @DeleteMapping
-    public Conversation deleteConversation(@RequestBody Conversation conversation) {
-        return conversationRepository.save(conversation);
+    @DeleteMapping("/delete")
+    public void deleteConversation(@RequestBody Conversation conversation) {
+        conversationRepository.delete(conversation);
     }
     
     // Other CRUD operations and additional endpoints

@@ -1,34 +1,30 @@
 package com.example.gpt4.demo.entity;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.redis.core.RedisHash;
+import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@RedisHash("Conversation")
+
+@Entity
+@Table(name = "conversation")
+@Data
 public class Conversation {
-    @Id
-    private String id;
-    private List<Message> messages;
     
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    @Column(name = "name")
     private String name;
+    
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "conversation_id")
+    private List<Message> messages;
     
     public Conversation() {
         this.messages = new ArrayList<>();
-    }
-    
-    public Conversation(String id) {
-        this.id = id;
-        this.messages = new ArrayList<>();
-    }
-    
-    public String getId() {
-        return id;
-    }
-    
-    public List<Message> getMessages() {
-        return messages;
     }
     
     public void addMessage(Message message) {
