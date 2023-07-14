@@ -1,47 +1,78 @@
 package com.example.gpt4.demo.security.entities;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Data
-@Entity
-@EntityListeners(AuditingEntityListener.class)
-@Table(name = "user")
-public class User {
-
+@Document
+public class User implements UserDetails {
+    
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(nullable = false)
-    @Size(max = 100)
-    private String login;
+    private String id;
     
-    @Column(nullable = false)
-    @Size(max = 100)
-    private String name;
+    private String firstName;
     
-    @Column(nullable = false)
-    @Size(max = 100)
+    private String lastName;
+    
     private String email;
     
-    @Column(nullable = false)
-    @Size(max = 100)
     private String password;
     
-    @CreatedDate
-    @Column(name = "created_date", nullable = false)
     private LocalDateTime createdDate;
+    
+    @Enumerated(EnumType.STRING)
+    private Role role;
+    
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        
+        return List.of(new SimpleGrantedAuthority(role.name()));
+    }
+    
+    @Override
+    public String getUsername() {
+        // email in our case
+        return email;
+    }
+    
+    @Override
+    public boolean isAccountNonExpired() {
+        
+        return true;
+    }
+    
+    @Override
+    public boolean isAccountNonLocked() {
+        
+        return true;
+    }
+    
+    @Override
+    public boolean isCredentialsNonExpired() {
+        
+        return true;
+    }
+    
+    @Override
+    public boolean isEnabled() {
+        
+        return true;
+    }
     
 }

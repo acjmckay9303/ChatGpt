@@ -1,0 +1,29 @@
+# fly.toml file
+app = "gptchat"
+
+kill_signal = "SIGINT"
+kill_timeout = 5
+
+[build]
+# Dockerfile path
+dockerfile = "Dockerfile"
+
+[env]
+SPRING_PROFILES_ACTIVE = "prod"
+JAVA_TOOL_OPTIONS = "-XX:MaxRAMPercentage=80.0"
+
+[[services]]
+internal_port = 8080
+protocol = "tcp"
+
+[[services.ports]]
+handlers = ["http"]
+port = "80"
+
+[[services.ports]]
+handlers = ["tls", "http"]
+port = "443"
+
+[[services.tcp_checks]]
+interval = 10000
+timeout = 2000
