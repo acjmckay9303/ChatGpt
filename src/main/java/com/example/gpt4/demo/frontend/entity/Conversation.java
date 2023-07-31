@@ -1,17 +1,17 @@
 package com.example.gpt4.demo.frontend.entity;
 
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import lombok.Builder;
 import lombok.Data;
 import org.mvnsearch.chatgpt.model.ChatMessage;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Document
-@Table(name = "conversation")
 @Data
+@Builder
 public class Conversation {
     
     @Id
@@ -21,11 +21,6 @@ public class Conversation {
     
     private String userId;
     private List<Message> messages;
-    
-    public Conversation() {
-        
-        this.messages = new ArrayList<>();
-    }
     
     public void addMessage(Message message) {
         

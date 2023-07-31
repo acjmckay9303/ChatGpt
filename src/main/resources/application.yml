@@ -1,0 +1,31 @@
+server:
+  port: 3000
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: ERROR
+    com.auth0.example: TRACE
+
+spring:
+  data:
+    mongodb:
+      uri: mongodb+srv://gptchat:vQrgRW841nfggfZI@gpt-chat-cluster.qyimwhp.mongodb.net/gptchat?retryWrites=true&w=majority
+  config:
+    import: optional:secrets.properties
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://dev-ebs3c18vl14vfov8.us.auth0.com/
+          audience: https://dev-ebs3c18vl14vfov8.us.auth0.com/api/v2/
+
+openai:
+  model: gpt-3.5-turbo-16k
+  api:
+    url: https://api.openai.com/v1/chat/completions
+
+gpt:
+  client:
+    url: http://localhost:8080
+
